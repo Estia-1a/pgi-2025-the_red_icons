@@ -64,6 +64,28 @@ void second_line (char *source_path){
      printf ("second_line: %d, %d, %d", data[width*3], data[width*3+1], data[width*3+2]);
     }
     else {
+        printf("erreur");
+    }
+}
+
+void max_pixel (char *source_path){
+    int width, height, channel_count, max, xmax, ymax, i, j;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if (resultat){
+        for (i = 1; i<= height; i++){
+            for (j = 0; j < width*3; j++){
+                if (data[(width*3-1)*(i-1)+(i-1)*3]+data[(width*3-1)*(i-1)+(i-1)*3+1]+data[(width*3-1)*(i-1)+(i-1)*3+2] > max){
+                    max = data[(width*3-1)*(i-1)+(i-1)*3]+data[(width*3-1)*(i-1)+(i-1)*3+1]+data[(width*3-1)*(i-1)+(i-1)*3+2];
+                    xmax = i;
+                    ymax = j;
+                }
+            }            
+        }
+     printf ("max_pixel (%d, %d): %d, %d, %d",xmax ,ymax, data[(width*3-1)*(i-1)+(i-1)*3], data[(width*3-1)*(i-1)+(i-1)*3+2], data[(width*3-1)*(i-1)+(i-1)*3+3]);
+    }
+    else {
         printf("ERROR");
     }
 }
