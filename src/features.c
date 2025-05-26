@@ -67,3 +67,17 @@ void second_line (char *source_path){
         printf("ERROR");
     }
 }
+
+void print_pixel( char *source_path, int x, int y ){
+    int width, height, channel_count, n;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    if (resultat){
+     n=(width*3*(y-1))+((x-1)*3);
+     printf ("print_pixel %d, %d, %d,%d, %d", x, y, data[n], data[n+1], data[n+2]);
+    }
+    else {
+        printf("ERROR");
+    }
+}
