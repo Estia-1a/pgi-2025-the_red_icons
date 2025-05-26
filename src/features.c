@@ -67,3 +67,23 @@ void second_line (char *source_path){
         printf("ERROR");
     }
 }
+
+void rotate_cw (char *source_path){
+    int width, height, channel_count, i, j;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int rotated_cw [width*height*3];
+    for (i=0; i<=height*width*3; i++){
+        for (j=2; j=!0;j-- i++) {
+            rotated_cw[(width*3-1)*((i+1)%(width*3))-j] = data [i];
+        }
+    }
+
+    if (resultat){
+     printf ("second_line: %d, %d, %d", data[width*3], data[width*3+1], data[width*3+2]);
+    }
+    else {
+        printf("ERROR");
+    }
+}
