@@ -84,8 +84,8 @@ void max_pixel (char *source_path){
             for (j = 1; j <= width; j++){
                 if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] > max){
                     max = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
-                    xmax = i;
-                    ymax = j;
+                    xmax = j-1;
+                    ymax = i-1;
                     rmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
                     gmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
                     bmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
