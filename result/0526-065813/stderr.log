@@ -1,0 +1,17 @@
+/home/runner/work/pgi-2025-the_red_icons/pgi-2025-the_red_icons/src/features.c: In function ‘dimension’:
+/home/runner/work/pgi-2025-the_red_icons/pgi-2025-the_red_icons/src/features.c:21:21: error: expected expression before ‘const’
+   21 |     read_image_data(const char source_path, unsigned char data, int width, int height, int channel_count);
+      |                     ^~~~~
+/home/runner/work/pgi-2025-the_red_icons/pgi-2025-the_red_icons/src/features.c:21:5: error: too few arguments to function ‘read_image_data’
+   21 |     read_image_data(const char source_path, unsigned char data, int width, int height, int channel_count);
+      |     ^~~~~~~~~~~~~~~
+In file included from /home/runner/work/pgi-2025-the_red_icons/pgi-2025-the_red_icons/src/features.c:1:
+/home/runner/work/pgi-2025-the_red_icons/lib/estia_image/include/estia-image.h:13:5: note: declared here
+   13 | int read_image_data(const char *filename, unsigned char **data, int *width, int *height, int *channel_count);
+      |     ^~~~~~~~~~~~~~~
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:93: CMakeFiles/freud.dir/src/features.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
