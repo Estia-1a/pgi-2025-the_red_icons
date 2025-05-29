@@ -64,6 +64,37 @@ void second_line (char *source_path){
      printf ("second_line: %d, %d, %d", data[width*3], data[width*3+1], data[width*3+2]);
     }
     else {
+        printf("erreur");
+    }
+}
+
+void max_pixel (char *source_path){
+    int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, i, j;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    max = 0;
+    xmax = 0;
+    ymax = 0;
+    rmax = 0;
+    gmax = 0;
+    bmax = 0;
+
+    if (resultat){
+        for (i = 1; i <= height; i++){
+            for (j = 1; j <= width; j++){
+                if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] > max){
+                    max = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
+                    xmax = j-1;
+                    ymax = i-1;
+                    rmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
+                    gmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
+                    bmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+                }
+            }            
+        }
+     printf ("max_pixel (%d, %d): %d, %d, %d",xmax ,ymax, rmax, gmax, bmax);
+    }
+    else {
         printf("ERROR");
     }
 }
