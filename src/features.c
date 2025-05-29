@@ -192,3 +192,52 @@ void max_component (char *source_path, char t){
         printf("erreur de lecture");
     }
 }
+
+void min_component (char *source_path, char t){
+    int width, height, channel_count, min, xmin, ymin, i, j;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    min = 255;
+    xmin = 0;
+    ymin = 0;
+
+    if (resultat){
+        for (i = 1; i <= height; i++){
+            for (j = 1; j <= width; j++){
+                if (t == 'R'){
+                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count] < min){
+                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
+                        xmin = j-1;
+                        ymin = i-1;
+                    }
+                }
+                if (t == 'G'){
+                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+1] < min){
+                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
+                        xmin = j-1;
+                        ymin = i-1;
+                    }
+                }
+                if (t == 'B'){
+                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+2] < min){
+                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+                        xmin = j-1;
+                        ymin = i-1;
+                    }
+                }
+            }            
+        }
+        if (t == 'R') {
+            printf ("min_component R (%d, %d): %d", xmin, ymin, min);
+        }
+        if (t == 'G') {
+            printf ("min_component G (%d, %d): %d", xmin, ymin, min);
+        }
+        if (t == 'B') {
+            printf ("min_component B (%d, %d): %d", xmin, ymin, min);
+        }
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}

@@ -75,5 +75,11 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
     max_component( configuration.filenames[0], t );
 }
 
+if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    char t = configuration.arguments[0][0] ;
+    min_component( configuration.filenames[0], t );
+}
+
   return 0;
 }
