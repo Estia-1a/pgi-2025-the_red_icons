@@ -68,6 +68,20 @@ void second_line (char *source_path){
     }
 }
 
+void print_pixel( char *source_path, int x, int y ){
+    int width, height, channel_count, n;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    if (resultat){
+     n=(width*3*(y-1))+((x-1)*3);
+     printf ("print_pixel %d, %d, %d,%d, %d", x, y, data[n], data[n+1], data[n+2]);
+    }
+    else {
+        printf("ERROR");
+    }
+}
+
 void max_pixel (char *source_path){
     int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, i, j;
     unsigned char *data;
@@ -93,6 +107,37 @@ void max_pixel (char *source_path){
             }            
         }
      printf ("max_pixel (%d, %d): %d, %d, %d",xmax ,ymax, rmax, gmax, bmax);
+    }
+    else {
+        printf("ERROR");
+    }
+}
+
+void min_pixel (char *source_path){
+    int width, height, channel_count, min, xmin, ymin, rmin, gmin, bmin, i, j;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    min = 255*3;
+    xmin = 0;
+    ymin = 0;
+    rmin = 0;
+    gmin = 0;
+    bmin = 0;
+
+    if (resultat){
+        for (i = 1; i <= height; i++){
+            for (j = 1; j <= width; j++){
+                if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] < min) {
+                    min = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
+                    xmin = j-1;
+                    ymin = i-1;
+                    rmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
+                    gmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
+                    bmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+                }
+            }            
+        }
+     printf ("max_pixel (%d, %d): %d, %d, %d",xmin ,ymin, rmin, gmin, bmin);
     }
     else {
         printf("ERROR");
