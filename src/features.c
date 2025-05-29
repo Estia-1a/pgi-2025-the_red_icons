@@ -265,5 +265,17 @@ void stat_report (char *source_path){
     printf("\n\n");
     min_pixel (source_path);
     printf("\n\n");
+    max_component (source_path, 'R');
+    printf("\n\n");
+    max_component (source_path, 'G');
+    printf("\n\n");
+    max_component (source_path, 'B');
+    printf("\n\n");
+    min_component (source_path, 'R');
+    printf("\n\n");
+    min_component (source_path, 'G');
+    printf("\n\n");
+    min_component (source_path, 'B');
+    printf("\n\n");
 
 }
