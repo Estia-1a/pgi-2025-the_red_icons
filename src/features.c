@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "features.h"
 #include "utils.h"
@@ -81,6 +82,8 @@ void print_pixel( char *source_path, int x, int y ){
         printf("ERROR");
     }
 }
+
+/*DEBUT FONCTIONS STATISTIQUES*/
 
 void max_pixel (char *source_path){
     int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, i, j;
@@ -240,4 +243,27 @@ void min_component (char *source_path, char t){
     else {
         printf("erreur de lecture");
     }
+}
+
+void stat_report (char *source_path){
+    char nom_fichier_stat_report[256];
+    
+    /*créer fichier txt nommé par immage*/
+    char *nom_image = strrchr(source_path, '/');
+    if (nom_image != NULL) {
+        nom_image++;
+    }
+    else {
+        nom_image = source_path;
+    }
+    snprintf(nom_fichier_stat_report, sizeof(nom_fichier_stat_report), "stat_report_%s.txt", nom_image);
+    freopen(nom_fichier_stat_report, "w", stdout);
+
+
+    /*appel des différentes fonctions*/
+    max_pixel (source_path);
+    printf("\n\n");
+    min_pixel (source_path);
+    printf("\n\n");
+
 }
