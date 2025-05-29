@@ -140,7 +140,7 @@ void min_pixel (char *source_path){
                 }
             }            
         }
-     printf ("max_pixel (%d, %d): %d, %d, %d",xmin ,ymin, rmin, gmin, bmin);
+     printf ("min_pixel (%d, %d): %d, %d, %d",xmin ,ymin, rmin, gmin, bmin);
     }
     else {
         printf("erreur de lecture");
