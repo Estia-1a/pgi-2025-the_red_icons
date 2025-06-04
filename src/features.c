@@ -75,7 +75,7 @@ void print_pixel( char *source_path, int x, int y ){
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     
     if (resultat){
-     n=(width*3*(y-1))+((x-1)*3);
+     n=(width*channel_count*(y-1))+((x-1)*channel_count);
      printf ("print_pixel (%d, %d): %d, %d, %d", x, y, data[n], data[n+1], data[n+2]);
     }
     else {
