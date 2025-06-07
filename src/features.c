@@ -156,7 +156,7 @@ void min_pixel (char *source_path){
 }
 
 void max_component (char *source_path, char t){
-    int width, height, channel_count, max, xmax, ymax, i, j;
+    int width, height, channel_count, max, xmax, ymax, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     max = 0;
@@ -164,27 +164,30 @@ void max_component (char *source_path, char t){
     ymax = 0;
 
     if (resultat){
-        for (i = 1; i <= height; i++){
-            for (j = 1; j <= width; j++){
-                if (t == 'R'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count] > max){
-                        max = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
-                        xmax = j-1;
-                        ymax = i-1;
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    if (t == 'R'){
+                        if (current_pixel->R > max){
+                            max = current_pixel->R;
+                            xmax = x;
+                            ymax = y;
+                        }
                     }
-                }
-                if (t == 'G'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+1] > max){
-                        max = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
-                        xmax = j-1;
-                        ymax = i-1;
+                    if (t == 'G'){
+                        if (current_pixel->G > max){
+                            max = current_pixel->G;
+                            xmax = x;
+                            ymax = y;
+                        }
                     }
-                }
-                if (t == 'B'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+2] > max){
-                        max = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
-                        xmax = j-1;
-                        ymax = i-1;
+                    if (t == 'B'){
+                        if (current_pixel->B > max){
+                            max = current_pixel->B;
+                            xmax = x;
+                            ymax = y;
+                        }
                     }
                 }
             }            
