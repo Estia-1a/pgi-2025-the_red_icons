@@ -6,7 +6,6 @@
 #include <getopt.h>
 
 #include "features.h"
-#include "utils.h"
 #include "argsparse.h"
 
 int main(int argc, char **argv) {

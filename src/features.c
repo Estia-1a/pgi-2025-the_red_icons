@@ -86,7 +86,7 @@ void print_pixel( char *source_path, int x, int y ){
 /*DEBUT FONCTIONS STATISTIQUES*/
 
 void max_pixel (char *source_path){
-    int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, i, j;
+    int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     max = 0;
@@ -97,15 +97,19 @@ void max_pixel (char *source_path){
     bmax = 0;
 
     if (resultat){
-        for (i = 1; i <= height; i++){
-            for (j = 1; j <= width; j++){
-                if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] > max){
-                    max = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
-                    xmax = j-1;
-                    ymax = i-1;
-                    rmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
-                    gmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
-                    bmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    int current_rgb = current_pixel->R + current_pixel->G + current_pixel->B;
+                    if (current_rgb > max) {
+                        max = current_rgb;
+                        xmax = x;
+                        ymax = y;
+                        rmax = current_pixel->R;
+                        gmax = current_pixel->G;
+                        bmax = current_pixel->B;
+                    }
                 }
             }            
         }
@@ -117,7 +121,7 @@ void max_pixel (char *source_path){
 }
 
 void min_pixel (char *source_path){
-    int width, height, channel_count, min, xmin, ymin, rmin, gmin, bmin, i, j;
+    int width, height, channel_count, min, xmin, ymin, rmin, gmin, bmin, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     min = 255*3;
@@ -128,15 +132,19 @@ void min_pixel (char *source_path){
     bmin = 0;
 
     if (resultat){
-        for (i = 1; i <= height; i++){
-            for (j = 1; j <= width; j++){
-                if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] < min) {
-                    min = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
-                    xmin = j-1;
-                    ymin = i-1;
-                    rmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
-                    gmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
-                    bmin = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    int current_rgb = current_pixel->R + current_pixel->G + current_pixel->B;
+                    if (current_rgb < min) {
+                        min = current_rgb;
+                        xmin = x;
+                        ymin = y;
+                        rmin = current_pixel->R;
+                        gmin = current_pixel->G;
+                        bmin = current_pixel->B;
+                    }
                 }
             }            
         }
