@@ -68,47 +68,27 @@ void second_line (char *source_path){
     }
 }
 
-void rotate_cw (char *source_path){
-
-    int width, height, channel_count, i, j;
-    unsigned char *data;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-
-    int rotated_cw [width*height*3];
-    for (i=0; i<=height*width*3; i++){
-        for (j=2; j != 0;j--, i++) {
-            rotated_cw[(width*3-1)*((i+1)%(width*3))-j] = data [i];
-        }
-    }
-
-    if (resultat){
-        write_image_data(source_path, rotated_cw, &width, &height);
-    }
-    else {
-        printf("ERROR");
-    }
-}
-
 void mirror_vertical (char *source_path){
 
-    int width, height, channel_count, i, j, lenght;
+    int width, height, channel_count, i, j, k, current_rgb ;
     unsigned char *data;
+    unsigned char *mirror_vertical;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-
-    lenght = width*height*3;
-    int mirror_vertical [lenght];
-    for (i=0; i<lenght; i++) {
-        for (j=0; j<lenght; j++) {
-            for (k=2; k>=0; k--) {
-                mirror_vertical [lenght*i-2]
+    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
+    
+    for (i=0; i<height; i++){
+        for (j=1; j<width+1; j++){
+            for (k=0; k<3; k++){
+                current_rgb = 3*width*i+k;
+                mirror_vertical[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
             }
         }
     }
 
     if (resultat){
-        write_image_data(source_path, rotated_cw, &width, &height);
+        write_image_data("C:/WORKSPACE/image.png", mirror_vertical, width, height);
     }
     else {
-        printf("ERROR");
+        printf("NULL");
     }
 }
