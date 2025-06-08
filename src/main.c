@@ -6,7 +6,6 @@
 #include <getopt.h>
 
 #include "features.h"
-#include "utils.h"
 #include "argsparse.h"
 
 int main(int argc, char **argv) {
@@ -57,14 +56,29 @@ if ( strncmp( configuration.command, "print_pixel", 11 ) == 0 ) {
     int x = atoi( configuration.arguments[0] );
     int y = atoi( configuration.arguments[1]);
     print_pixel( configuration.filenames[0], x, y);
-}    
+}
+
 if ( strncmp( configuration.command, "max_pixel", 9 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     max_pixel( configuration.filenames[0] );
 }
-    /*
-   * TO COMPLETE
-   */
-  
+
+if ( strncmp( configuration.command, "min_pixel", 9 ) == 0 ) {
+    min_pixel( configuration.filenames[0] );
+}
+
+if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
+    char t = configuration.arguments[0][0] ;
+    max_component( configuration.filenames[0], t );
+}
+
+if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+    char t = configuration.arguments[0][0] ;
+    min_component( configuration.filenames[0], t );
+}
+
+if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
+    stat_report( configuration.filenames[0]);
+}
+
   return 0;
 }

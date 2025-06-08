@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "features.h"
 #include "utils.h"
@@ -68,8 +69,24 @@ void second_line (char *source_path){
     }
 }
 
+void print_pixel( char *source_path, int x, int y ){
+    int width, height, channel_count, n;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+    if (resultat){
+     n=(width*channel_count*(y-1))+((x-1)*channel_count);
+     printf ("print_pixel (%d, %d): %d, %d, %d", x, y, data[n], data[n+1], data[n+2]);
+    }
+    else {
+        printf("ERROR");
+    }
+}
+
+/*DEBUT FONCTIONS STATISTIQUES*/
+
 void max_pixel (char *source_path){
-    int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, i, j;
+    int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     max = 0;
@@ -80,35 +97,199 @@ void max_pixel (char *source_path){
     bmax = 0;
 
     if (resultat){
-        for (i = 1; i <= height; i++){
-            for (j = 1; j <= width; j++){
-                if (data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count+1]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2] > max){
-                    max = data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count]+data[(width*channel_count)*(i-1)+(j-1)*channel_count + 2];
-                    xmax = j-1;
-                    ymax = i-1;
-                    rmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
-                    gmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
-                    bmax = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    int current_rgb = current_pixel->R + current_pixel->G + current_pixel->B;
+                    if (current_rgb > max) {
+                        max = current_rgb;
+                        xmax = x;
+                        ymax = y;
+                        rmax = current_pixel->R;
+                        gmax = current_pixel->G;
+                        bmax = current_pixel->B;
+                    }
                 }
             }            
         }
      printf ("max_pixel (%d, %d): %d, %d, %d",xmax ,ymax, rmax, gmax, bmax);
     }
     else {
-        printf("ERROR");
+        printf("erreur de lecture");
     }
 }
 
-void print_pixel( char *source_path, int x, int y ){
-    int width, height, channel_count, n;
+void min_pixel (char *source_path){
+    int width, height, channel_count, min, xmin, ymin, rmin, gmin, bmin, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    
+    min = 255*3;
+    xmin = 0;
+    ymin = 0;
+    rmin = 0;
+    gmin = 0;
+    bmin = 0;
+
     if (resultat){
-     n=(width*3*(y-1))+((x-1)*3);
-     printf ("print_pixel %d, %d, %d,%d, %d", x, y, data[n], data[n+1], data[n+2]);
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    int current_rgb = current_pixel->R + current_pixel->G + current_pixel->B;
+                    if (current_rgb < min) {
+                        min = current_rgb;
+                        xmin = x;
+                        ymin = y;
+                        rmin = current_pixel->R;
+                        gmin = current_pixel->G;
+                        bmin = current_pixel->B;
+                    }
+                }
+            }            
+        }
+     printf ("min_pixel (%d, %d): %d, %d, %d",xmin ,ymin, rmin, gmin, bmin);
     }
     else {
-        printf("ERROR");
+        printf("erreur de lecture");
     }
+}
+
+void max_component (char *source_path, char t){
+    int width, height, channel_count, max, xmax, ymax, x, y;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    max = 0;
+    xmax = 0;
+    ymax = 0;
+
+    if (resultat){
+        for (y = 0; y <= height; y++){
+            for (x = 0; x <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    if (t == 'R'){
+                        if (current_pixel->R > max){
+                            max = current_pixel->R;
+                            xmax = x;
+                            ymax = y;
+                        }
+                    }
+                    if (t == 'G'){
+                        if (current_pixel->G > max){
+                            max = current_pixel->G;
+                            xmax = x;
+                            ymax = y;
+                        }
+                    }
+                    if (t == 'B'){
+                        if (current_pixel->B > max){
+                            max = current_pixel->B;
+                            xmax = x;
+                            ymax = y;
+                        }
+                    }
+                }
+            }            
+        }
+        if (t == 'R') {
+            printf ("max_component R (%d, %d): %d", xmax, ymax, max);
+        }
+        if (t == 'G') {
+            printf ("max_component G (%d, %d): %d", xmax, ymax, max);
+        }
+        if (t == 'B') {
+            printf ("max_component B (%d, %d): %d", xmax, ymax, max);
+        }
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}
+
+void min_component (char *source_path, char t){
+    int width, height, channel_count, min, xmin, ymin, x, y;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    min = 255;
+    xmin = 0;
+    ymin = 0;
+
+    if (resultat){
+        for (x = 0; x <= height; x++){
+            for (y = 0; 0 <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    if (t == 'R'){
+                        if (current_pixel->R > min){
+                            min = current_pixel->R;
+                            xmin = x;
+                            ymin = y;
+                        }
+                    }
+                    if (t == 'G'){
+                        if (current_pixel->G > min){
+                            min = current_pixel->G;
+                            xmin = x;
+                            ymin = y;
+                        }
+                    }
+                    if (t == 'B'){
+                        if (current_pixel->B > min){
+                            min = current_pixel->B;
+                            xmin = x;
+                            ymin = y;
+                        }
+                    }
+                }
+            }            
+        }
+        if (t == 'R') {
+            printf ("min_component R (%d, %d): %d", xmin, ymin, min);
+        }
+        if (t == 'G') {
+            printf ("min_component G (%d, %d): %d", xmin, ymin, min);
+        }
+        if (t == 'B') {
+            printf ("min_component B (%d, %d): %d", xmin, ymin, min);
+        }
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}
+
+void stat_report (char *source_path){
+    char nom_fichier_stat_report[256];
+    
+    /*créer fichier txt nommé par immage*/
+    char *nom_image = strrchr(source_path, '/');
+    if (nom_image != NULL) {
+        nom_image++;
+    }
+    else {
+        nom_image = source_path;
+    }
+    snprintf(nom_fichier_stat_report, sizeof(nom_fichier_stat_report), "stat_report_%s.txt", nom_image);
+    freopen(nom_fichier_stat_report, "w", stdout);
+
+
+    /*appel des différentes fonctions*/
+    max_pixel (source_path);
+    printf("\n\n");
+    min_pixel (source_path);
+    printf("\n\n");
+    max_component (source_path, 'R');
+    printf("\n\n");
+    max_component (source_path, 'G');
+    printf("\n\n");
+    max_component (source_path, 'B');
+    printf("\n\n");
+    min_component (source_path, 'R');
+    printf("\n\n");
+    min_component (source_path, 'G');
+    printf("\n\n");
+    min_component (source_path, 'B');
+    printf("\n\n");
+
 }
