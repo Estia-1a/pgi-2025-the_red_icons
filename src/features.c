@@ -208,7 +208,7 @@ void max_component (char *source_path, char t){
 }
 
 void min_component (char *source_path, char t){
-    int width, height, channel_count, min, xmin, ymin, i, j;
+    int width, height, channel_count, min, xmin, ymin, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     min = 255;
@@ -216,27 +216,30 @@ void min_component (char *source_path, char t){
     ymin = 0;
 
     if (resultat){
-        for (i = 1; i <= height; i++){
-            for (j = 1; j <= width; j++){
-                if (t == 'R'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count] < min){
-                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count];
-                        xmin = j-1;
-                        ymin = i-1;
+        for (x = 0; x <= height; x++){
+            for (y = 0; 0 <= width; x++){
+                pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+                if (current_pixel != NULL) {
+                    if (t == 'R'){
+                        if (current_pixel->R > min){
+                            min = current_pixel->R;
+                            xmin = x;
+                            ymin = y;
+                        }
                     }
-                }
-                if (t == 'G'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+1] < min){
-                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count+1];
-                        xmin = j-1;
-                        ymin = i-1;
+                    if (t == 'G'){
+                        if (current_pixel->G > min){
+                            min = current_pixel->G;
+                            xmin = x;
+                            ymin = y;
+                        }
                     }
-                }
-                if (t == 'B'){
-                    if (data[(width*channel_count)*(i-1)+(j-1)*channel_count+2] < min){
-                        min = data[(width*channel_count)*(i-1)+(j-1)*channel_count+2];
-                        xmin = j-1;
-                        ymin = i-1;
+                    if (t == 'B'){
+                        if (current_pixel->B > min){
+                            min = current_pixel->B;
+                            xmin = x;
+                            ymin = y;
+                        }
                     }
                 }
             }            
