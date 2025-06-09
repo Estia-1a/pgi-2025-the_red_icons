@@ -52,6 +52,21 @@ if ( strncmp( configuration.command, "mirror_vertical", 15 ) == 0 ) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
     mirror_vertical( configuration.filenames[0] );
 }
+
+if ( strncmp( configuration.command, "mirror_horizontal", 17 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    mirror_horizontal( configuration.filenames[0] );
+}
+
+if ( strncmp( configuration.command, "mirror_cross", 12 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    mirror_cross( configuration.filenames[0] );
+}
+
+if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    rotate_cw( configuration.filenames[0] );
+}
     /*
    * TO COMPLETE
    */
