@@ -116,15 +116,15 @@ void mirror_horizontal (char *source_path){
     }
 }
 
-void mirror_cross (char *source_path){
+void mirror_total (char *source_path){
 
     int width, height, channel_count, i, j, k, current_rgb;
     unsigned char *data;
     unsigned char *mirror_vertical;
-    unsigned char *mirror_cross;
+    unsigned char *mirror_total;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
-    read_image_data(source_path, &mirror_cross, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_total, &width, &height, &channel_count);
     
     for (i=0; i<height; i++){
         for (j=1; j<width+1; j++){
@@ -138,12 +138,12 @@ void mirror_cross (char *source_path){
     for (i=0; i<height; i++){
         for (j=0; j<width*3; j++){
                 current_rgb = 3*width*i;
-                mirror_cross[j+(height-1)*width*3-current_rgb]= mirror_vertical[j+current_rgb];
+                mirror_total[j+(height-1)*width*3-current_rgb]= mirror_vertical[j+current_rgb];
         }
     }
 
     if (resultat){
-        write_image_data("C:/WORKSPACE/image.png", mirror_cross, width, height);
+        write_image_data("C:/WORKSPACE/image.png", mirror_total, width, height);
     }
     else {
         printf("NULL");

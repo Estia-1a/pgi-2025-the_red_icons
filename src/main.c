@@ -58,9 +58,9 @@ if ( strncmp( configuration.command, "mirror_horizontal", 17 ) == 0 ) {
     mirror_horizontal( configuration.filenames[0] );
 }
 
-if ( strncmp( configuration.command, "mirror_cross", 12 ) == 0 ) {
+if ( strncmp( configuration.command, "mirror_total", 12 ) == 0 ) {
     /* first_pixel() function is defined in feature.h and implemented in feature.c */
-    mirror_cross( configuration.filenames[0] );
+    mirror_total( configuration.filenames[0] );
 }
 
 if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
