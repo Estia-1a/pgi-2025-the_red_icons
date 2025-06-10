@@ -293,3 +293,9 @@ void stat_report (char *source_path){
     printf("\n\n");
 
 }
+
+/*DEBUT FONCTIONS COLORS*/
+
+void color_red (char *source_path){
+    
+}

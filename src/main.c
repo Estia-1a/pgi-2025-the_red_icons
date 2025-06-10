@@ -80,5 +80,9 @@ if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
     stat_report( configuration.filenames[0]);
 }
 
+if ( strncmp( configuration.command, "color_red", 9 ) == 0 ) {
+    stat_report( configuration.filenames[0]);
+}
+
   return 0;
 }
