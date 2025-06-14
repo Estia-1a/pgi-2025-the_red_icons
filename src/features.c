@@ -305,8 +305,8 @@ void color_red (char *source_path){
    read_image_data(source_path, &image_data, &width,&height,&num_channels);
    
    //Boucle parcourrire le tableau RGB//
-   for (y=0; y<=height; y++){
-    for (x=0; x<=width; x++){
+   for (y=0; y<height; y++){
+    for (x=0; x<width; x++){
         int pixel_start_index = (y*width+x)*num_channels;
         //composante verte//
         image_data[pixel_start_index+1] =0;
