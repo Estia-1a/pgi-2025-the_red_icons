@@ -297,5 +297,26 @@ void stat_report (char *source_path){
 /*DEBUT FONCTIONS COLORS*/
 
 void color_red (char *source_path){
-    
+   // variable pour stocké les information de l'image//
+   unsigned char *image_data;
+   int width, height,x, y,num_channels, result_code ;  
+   
+   // lire l'image // 
+   read_image_data(source_path, &image_data, &width,&height,&num_channels);
+   
+   //Boucle parcourrire le tableau RGB//
+   for (y=0; y<=height; y++){
+    for (x=0; x<=width; x++){
+        int pixel_start_index = (y*width+x)*num_channels;
+        //composante verte//
+        image_data[pixel_start_index+1] =0;
+        //composante bleu //
+        image_data[pixel_start_index+2] =0;
+    }
+   }
+
+//nom du fichier de sortie//
+const char *output_fillename = "image_out.bmp";
+write_image_data(output_fillename,image_data,width,height);
+free(image_data);
 }
