@@ -58,7 +58,7 @@ void tenth_pixel (char *source_path){
 
 void second_line (char *source_path){
     int width, height, channel_count;
-    unsigned char *data;
+    unsigned char *data=0;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
 
     if (resultat){
