@@ -297,7 +297,6 @@ void stat_report (char *source_path){
 /*DEBUT FONCTIONS COLORS*/
 
 void color_red (char *source_path){
-    printf("Test lancement");
     int width, height, channel_count, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
@@ -306,6 +305,32 @@ void color_red (char *source_path){
             for (x = 0; x < width; x++){
                 unsigned long pixel_offset = y * width * channel_count + x * channel_count;
                 data[pixel_offset +1] = 0;
+                data[pixel_offset +2] = 0;
+            }
+        }
+    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    if (write_success){
+        printf("sauvegarde des données du tableau réussie");
+    }
+    else {
+        printf("erreur de sauvegarde des données");
+    }
+    free_image_data(data);
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}
+
+void color_green (char *source_path){
+    int width, height, channel_count, x, y;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (resultat){
+        for (y = 0; y < height; y++){
+            for (x = 0; x < width; x++){
+                unsigned long pixel_offset = y * width * channel_count + x * channel_count;
+                data[pixel_offset ] = 0;
                 data[pixel_offset +2] = 0;
             }
         }
