@@ -465,9 +465,10 @@ void color_desaturate (char *source_path){
         for (y = 0; y < height; y++){
             for (x = 0; x < width; x++){
                 unsigned long pixel_offset = y * width * channel_count + x * channel_count;
-                unsigned char pixel_min = 255 ;
-                unsigned char pixel_max = 0 ;
-                unsigned long pixel_moyenne = (pixel_min + pixel_max) / 2 ;
+                unsigned char R = data[pixel_offset];
+                unsigned char G = data[pixel_offset + 1 ];
+                unsigned char B = data[pixel_offset + 2 ]; 
+                unsigned long pixel_moyenne = (min(R, G, B) + max(R, G, B)) / 2 ;
                 data[pixel_offset ] = pixel_moyenne ;
                 data[pixel_offset + 1 ] = pixel_moyenne ;
                 data[pixel_offset + 2 ] = pixel_moyenne ;
