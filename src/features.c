@@ -62,10 +62,10 @@ void second_line (char *source_path){
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
 
     if (resultat){
-     printf ("second_line: %d, %d, %d", data[width*3], data[width*3+1], data[width*3+2]);
+     printf ("second_line: %d, %d, %d \n", data[width*3], data[width*3+1], data[width*3+2]);
     }
     else {
-        printf("erreur");
+        printf("erreur \n");
     }
 
     // libérer la mémoire//
