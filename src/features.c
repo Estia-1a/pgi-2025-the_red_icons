@@ -86,7 +86,7 @@ void mirror_vertical (char *source_path){
     }
 
     if (resultat){
-        write_image_data("C:/WORKSPACE/image.png", mirror_vertical, width, height);
+        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
     }
     else {
         printf("NULL");
@@ -109,7 +109,7 @@ void mirror_horizontal (char *source_path){
     }
 
     if (resultat){
-        write_image_data("C:/WORKSPACE/image.png", mirror_horizontal, width, height);
+        write_image_data("images/image_out.bmp", mirror_horizontal, width, height);
     }
     else {
         printf("NULL");
@@ -143,7 +143,7 @@ void mirror_total (char *source_path){
     }
 
     if (resultat){
-        write_image_data("C:/WORKSPACE/image.png", mirror_total, width, height);
+        write_image_data("images/image_out.bmp", mirror_total, width, height);
     }
     else {
         printf("NULL");
@@ -182,7 +182,7 @@ void rotate_cw (char *source_path){
     
 
     if (resultat){
-        write_image_data("C:/WORKSPACE/image.png", rotate_cw, width, height);
+        write_image_data("images/image_out.bmp", rotate_cw, width, height);
     }
     else {
         printf("NULL");
