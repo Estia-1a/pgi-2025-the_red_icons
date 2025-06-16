@@ -78,7 +78,12 @@ void print_pixel( char *source_path, int x, int y ){
     pixelRGB *resultatgetpixel = get_pixel(data,width,height,channel_count,x,y);
 // lire donées immage//
 int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
 //echec lecture immage //
+if (resultat=0){
+    printf("erreur lecture immage \n");
+    return;
+}
 // afficher le resultat si valide //
     
 //liberer mémoire//
