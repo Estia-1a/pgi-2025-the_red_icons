@@ -77,13 +77,7 @@ void print_pixel( char *source_path, int x, int y ){
     //utilisation fonction getpixel //
     pixelRGB *resultatgetpixel = get_pixel(data,width,height,channel_count,x,y);
 
-    if (resultat){
-     
-     printf ("print_pixel (%d, %d): %d, %d, %d \n", x, y, data[n], data[n+1], data[n+2]);
-    }
-    else {
-        printf("ERROR \n");
-    }
+    
 //liberer mémoire//
 free(data);
 }
