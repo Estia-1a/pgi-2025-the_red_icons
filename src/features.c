@@ -373,3 +373,31 @@ void color_blue (char *source_path){
         printf("erreur de lecture");
     }
 }
+
+void color_gray (char *source_path){
+    int width, height, channel_count, x, y;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    if (resultat){
+        for (y = 0; y < height; y++){
+            for (x = 0; x < width; x++){
+                unsigned long pixel_offset = y * width * channel_count + x * channel_count;
+                unsigned long pixel_moyenne = (data[pixel_offset] + data[pixel_offset + 1] + data[pixel_offset + 2])/3;
+                data[pixel_offset ] = pixel_moyenne ;
+                data[pixel_offset + 1 ] = pixel_moyenne ;
+                data[pixel_offset + 2 ] = pixel_moyenne ;
+            }
+        }
+    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    if (write_success){
+        printf("sauvegarde des données du tableau réussie");
+    }
+    else {
+        printf("erreur de sauvegarde des données");
+    }
+    free_image_data(data);
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}
