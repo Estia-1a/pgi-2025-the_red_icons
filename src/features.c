@@ -71,10 +71,11 @@ void second_line (char *source_path){
 }
 
 void print_pixel( char *source_path, int x, int y ){
-    int width, height, channel_count, n;
+    int width, height, channel_count;
     unsigned char *data=0;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     
+
     if (resultat){
      
      printf ("print_pixel (%d, %d): %d, %d, %d \n", x, y, data[n], data[n+1], data[n+2]);
