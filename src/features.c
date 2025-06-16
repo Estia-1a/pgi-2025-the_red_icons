@@ -1,7 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -297,7 +297,7 @@ void stat_report (char *source_path){
 /*DEBUT FONCTIONS COLORS*/
 
 void color_red (char *source_path){
-   // variable pour stocké les information de l'image//
+// variable pour stocké les information de l'image//
    unsigned char *image_data;
    int width, height,x, y,num_channels, result_code ;  
    
@@ -319,4 +319,5 @@ void color_red (char *source_path){
 const char *output_fillename = "image_out.bmp";
 write_image_data(output_fillename,image_data,width,height);
 free(image_data);
+
 }
