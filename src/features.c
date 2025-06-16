@@ -76,7 +76,9 @@ void print_pixel( char *source_path, int x, int y ){
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     //utilisation fonction getpixel //
     pixelRGB *resultatgetpixel = get_pixel(data,width,height,channel_count,x,y);
-
+// pixel non trouver//
+//echec lecture immage //
+// afficher le resultat si valide //
     
 //liberer mémoire//
 free(data);
