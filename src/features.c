@@ -182,7 +182,7 @@ void rotate_cw (char *source_path){
     
 
     if (resultat){
-        write_image_data("images/image_out.bmp", rotate_cw, width, height);
+        write_image_data("images/image_out.bmp", rotate_cw, height, width);
     }
     else {
         printf("NULL");
