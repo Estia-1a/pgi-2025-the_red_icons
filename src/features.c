@@ -67,6 +67,9 @@ void second_line (char *source_path){
     else {
         printf("erreur");
     }
+
+    // libérer la mémoire//
+    free(data);
 }
 
 void print_pixel( char *source_path, int x, int y ){
