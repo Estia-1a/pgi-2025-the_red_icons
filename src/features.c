@@ -58,18 +58,16 @@ void tenth_pixel (char *source_path){
 
 void second_line (char *source_path){
     int width, height, channel_count;
-    unsigned char *data=0;
+    unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
 
     if (resultat){
-     printf ("second_line: %d, %d, %d \n", data[width*3], data[width*3+1], data[width*3+2]);
+     printf ("second_line: %d, %d, %d", data[width*3], data[width*3+1], data[width*3+2]);
     }
     else {
-        printf("erreur \n");
+        printf("erreur");
     }
 
-    // libérer la mémoire//
-    free(data);
 }
 
 void print_pixel( char *source_path, int x, int y ){
