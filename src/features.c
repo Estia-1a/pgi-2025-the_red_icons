@@ -437,9 +437,7 @@ void color_gray_luminance (char *source_path){
         for (y = 0; y < height; y++){
             for (x = 0; x < width; x++){
                 unsigned long pixel_offset = y * width * channel_count + x * channel_count;
-                unsigned char pixel_min = 255 ;
-                unsigned char pixel_max = 0 ;
-                unsigned long pixel_moyenne = (pixel_min + pixel_max) / 2 ;
+                float pixel_moyenne = 0.21f * data[pixel_offset] + 0.72f * data[pixel_offset + 1 ] + 0.07f * data[pixel_offset + 2 ] ;
                 data[pixel_offset ] = pixel_moyenne ;
                 data[pixel_offset + 1 ] = pixel_moyenne ;
                 data[pixel_offset + 2 ] = pixel_moyenne ;
@@ -467,7 +465,9 @@ void color_desaturate (char *source_path){
         for (y = 0; y < height; y++){
             for (x = 0; x < width; x++){
                 unsigned long pixel_offset = y * width * channel_count + x * channel_count;
-                float pixel_moyenne = 0.21f * data[pixel_offset] + 0.72f * data[pixel_offset + 1 ] + 0.07f * data[pixel_offset + 2 ] ;
+                unsigned char pixel_min = 255 ;
+                unsigned char pixel_max = 0 ;
+                unsigned long pixel_moyenne = (pixel_min + pixel_max) / 2 ;
                 data[pixel_offset ] = pixel_moyenne ;
                 data[pixel_offset + 1 ] = pixel_moyenne ;
                 data[pixel_offset + 2 ] = pixel_moyenne ;
