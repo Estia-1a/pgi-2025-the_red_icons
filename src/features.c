@@ -487,3 +487,12 @@ void color_desaturate (char *source_path){
         printf("erreur de lecture");
     }
 }
+
+/*Début fonctions resize*/
+
+void scale_neatest(char *source_path, char X){
+    int width, height, channel_count, x, y, X;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    
+}
