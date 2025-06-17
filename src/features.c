@@ -576,12 +576,14 @@ void rotate_cw (char *source_path){
     int width, height, channel_count, i, j;
     unsigned char *data;
     unsigned char *rotate_cw;
+    unsigned char *data_r;
+    unsigned char *data_g;
+    unsigned char *data_b;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     read_image_data(source_path, &rotate_cw, &width, &height, &channel_count);
-    
-    unsigned char grille_R[height][width];
-    unsigned char grille_G[height][width];
-    unsigned char grille_B[height][width];
+    read_image_data(source_path, &data_r, &width, &height, &channel_count);
+    read_image_data(source_path, &data_g, &width, &height, &channel_count);
+    read_image_data(source_path, &data_b, &width, &height, &channel_count);
 
     for (i=0; i<height; i++){
         int current_rgb = 3*width*i;
