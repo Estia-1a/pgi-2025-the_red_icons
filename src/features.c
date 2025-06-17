@@ -486,3 +486,87 @@ void color_desaturate (char *source_path){
         printf("erreur de lecture");
     }
 }
+
+/*Fonctions transform*/
+
+void mirror_vertical (char *source_path){
+
+    int width, height, channel_count, i, j, k, current_rgb ;
+    unsigned char *data;
+    unsigned char *mirror_vertical;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
+    
+    for (i=0; i<height; i++){
+        for (j=1; j<width+1; j++){
+            for (k=0; k<3; k++){
+                current_rgb = 3*width*i+k;
+                mirror_vertical[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
+            }
+        }
+    }
+
+    if (resultat){
+        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
+void mirror_horizontal (char *source_path){
+
+    int width, height, channel_count, i, j, current_rgb;
+    unsigned char *data;
+    unsigned char *mirror_horizontal;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_horizontal, &width, &height, &channel_count);
+    
+    for (i=0; i<height; i++){
+        for (j=0; j<width*3; j++){
+                current_rgb = 3*width*i;
+                mirror_horizontal[j+(height-1)*width*3-current_rgb]= data[j+current_rgb];
+        }
+    }
+
+    if (resultat){
+        write_image_data("images/image_out.bmp", mirror_horizontal, width, height);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
+void mirror_total (char *source_path){
+
+    int width, height, channel_count, i, j, k, current_rgb;
+    unsigned char *data;
+    unsigned char *mirror_vertical;
+    unsigned char *mirror_total;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_total, &width, &height, &channel_count);
+    
+    for (i=0; i<height; i++){
+        for (j=1; j<width+1; j++){
+            for (k=0; k<3; k++){
+                current_rgb = 3*width*i+k;
+                mirror_vertical[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
+            }
+        }
+    }
+
+    for (i=0; i<height; i++){
+        for (j=0; j<width*3; j++){
+                current_rgb = 3*width*i;
+                mirror_total[j+(height-1)*width*3-current_rgb]= mirror_vertical[j+current_rgb];
+        }
+    }
+
+    if (resultat){
+        write_image_data("images/image_out.bmp", mirror_total, width, height);
+    }
+    else {
+        printf("NULL");
+    }
+}
