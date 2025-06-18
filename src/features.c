@@ -656,3 +656,5 @@ void scale_crop (char *source_path, int x, int y, int width_crop, int height_cro
     }
 
 }
+
+test push
