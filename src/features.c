@@ -72,27 +72,29 @@ void second_line (char *source_path){
 
 void print_pixel( char *source_path, int x, int y ){
     int width, height, channel_count;
-    unsigned char *data=0;
+    unsigned char *data;
     
 
-// lire donées immage//
-printf("teste 1");
-int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-printf("teste 2");
+    // lire donées immage//
+    printf("teste 1");
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    printf("teste 2");
 
-// afficher le resultat si valide //
-if (resultat !=0){
-    pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
-    unsigned char R = current_pixel->R;
-    unsigned char G = current_pixel->G;
-    unsigned char B = current_pixel->B;
-    printf ("print_pixel (%d, %d): %d, %d, %d", x, y, R, G, B);
-}
-else {
-    printf("erreur lecture immage");
-}    
-//liberer mémoire//
-free(data);
+    pixelRGB *current_pixel = get_pixel(data, width, height, channel_count, x, y);
+
+    // afficher le resultat si valide //
+    if (resultat !=0) {
+        
+        unsigned char R = current_pixel->R;
+        unsigned char G = current_pixel->G;
+        unsigned char B = current_pixel->B;
+        printf ("print_pixel (%d, %d): %d, %d, %d", x, y, R, G, B);
+    }
+    else {
+        printf("erreur lecture immage");
+    }    
+    //liberer mémoire//
+    free(data);
 }
 
 /*DEBUT FONCTIONS STATISTIQUES*/
