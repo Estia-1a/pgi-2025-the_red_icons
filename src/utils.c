@@ -19,7 +19,7 @@ pixelRGB * get_pixel( unsigned char* data, const unsigned int width, const unsig
 
 }
 
-int set_Pixel( unsigned char* data, const unsigned int width, const unsigned int height, const unsigned int n, const unsigned int x, const unsigned int y, pixelRGB* pixel){
+int set_Pixel( unsigned char* data, const unsigned int width, const unsigned int n, const unsigned int x, const unsigned int y, pixelRGB* pixel){
 unsigned long décalage = y * width * n + x * n;
 data[décalage] = pixel->R;
 data[décalage+1] = pixel->G;
@@ -27,4 +27,3 @@ data[décalage+2] = pixel->B;
 
 return 0;
 }
-
