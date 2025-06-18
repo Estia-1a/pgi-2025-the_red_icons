@@ -606,7 +606,71 @@ void rotate_cw (char *source_path){
     }
     if (resultat){
         write_image_data("image_out.bmp", rotate_cw, height, width);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
 /*Début fonctions resize*/
+void rotate_acw (char *source_path){
+
+    int width, height, channel_count, x, y;
+    unsigned char *data;
+    unsigned char *rotate_acw;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &rotate_acw, &width, &height, &channel_count);
+    
+    for (y=0; y < height; y++){
+        for (x=0 ; x < width; x++){
+            int x_cible = y;
+            int y_cible = width-x-1;
+            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x , y);
+            pixelRGB* transform_pixel = get_pixel(rotate_acw, width, height, channel_count, x_cible , y_cible);
+            transform_pixel->R = original_pixel->R;
+            transform_pixel->G = original_pixel->G;
+            transform_pixel->B = original_pixel->B;
+        }
+    }
+    if (resultat){
+        write_image_data("image_out.bmp", rotate_acw, height, width);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
+void scale_crop (char *source_path, int x, int y, int width_crop, int height_crop){
+    int width, height, channel_count, x_origine, y_origine, x_crop, y_crop;
+    unsigned char *data;
+    unsigned char *crop_image;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &crop_image, &width, &height, &channel_count);
+
+    x_crop=0;
+    y_crop=0;
+
+    for (y_origine = y-height_crop/2 ; y_origine > height_crop+y_origine; y_origine++){
+        for (x_origine = x-width_crop/2 ; x_origine > width_crop+x_origine; x_origine++){
+            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x_origine , y_origine);
+            pixelRGB* crop_pixel = get_pixel(crop_image, width, height, channel_count, x_crop , y_crop);
+            crop_pixel->R = original_pixel->R;
+            crop_pixel->G = original_pixel->G;
+            crop_pixel->B = original_pixel->B;
+            x_crop+=1;
+        }
+        y_crop+=1;
+        x_crop=0;
+    }
+
+    if (resultat){
+        write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
+    }
+    else {
+        printf("NULL");
+    }
+
+}
 
 void scale_nearest(char *source_path, float t) {
     int width, height, channel_count, x, y;
@@ -723,64 +787,3 @@ void scale_bilinear(char *source_path, float t) {
         printf("erreur de lecture");
     }
 }
-
-void rotate_acw (char *source_path){
-
-    int width, height, channel_count, x, y;
-    unsigned char *data;
-    unsigned char *rotate_acw;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    read_image_data(source_path, &rotate_acw, &width, &height, &channel_count);
-    
-    for (y=0; y < height; y++){
-        for (x=0 ; x < width; x++){
-            int x_cible = y;
-            int y_cible = width-x-1;
-            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x , y);
-            pixelRGB* transform_pixel = get_pixel(rotate_acw, width, height, channel_count, x_cible , y_cible);
-            transform_pixel->R = original_pixel->R;
-            transform_pixel->G = original_pixel->G;
-            transform_pixel->B = original_pixel->B;
-        }
-    }
-    if (resultat){
-        write_image_data("image_out.bmp", rotate_acw, height, width);
-    }
-    else {
-        printf("NULL");
-    }
-}
-
-void scale_crop (char *source_path, int x, int y, int width_crop, int height_crop){
-    int width, height, channel_count, x_origine, y_origine, x_crop, y_crop;
-    unsigned char *data;
-    unsigned char *crop_image;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    read_image_data(source_path, &crop_image, &width, &height, &channel_count);
-
-    x_crop=0;
-    y_crop=0;
-
-    for (y_origine = y-height_crop/2 ; y_origine > height_crop+y_origine; y_origine++){
-        for (x_origine = x-width_crop/2 ; x_origine > width_crop+x_origine; x_origine++){
-            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x_origine , y_origine);
-            pixelRGB* crop_pixel = get_pixel(crop_image, width, height, channel_count, x_crop , y_crop);
-            crop_pixel->R = original_pixel->R;
-            crop_pixel->G = original_pixel->G;
-            crop_pixel->B = original_pixel->B;
-            x_crop+=1;
-        }
-        y_crop+=1;
-        x_crop=0;
-    }
-
-    if (resultat){
-        write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
-    }
-    else {
-        printf("NULL");
-    }
-
-}
-
-test push
