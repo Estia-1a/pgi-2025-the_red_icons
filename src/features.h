@@ -29,6 +29,8 @@ void color_desaturate (char *source_path);
 void mirror_horizontal (char *source_path);
 void mirror_vertical (char *source_path);
 void mirror_total (char *source_path);
+void rotate_cw (char *source_path);
+void rotate_acw (char *source_path);
 
 /*Resize*/
 void scale_nearest (char *source_path, float t);
