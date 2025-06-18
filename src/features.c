@@ -1,7 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 #include "features.h"
 #include "utils.h"
 
@@ -67,20 +67,34 @@ void second_line (char *source_path){
     else {
         printf("erreur");
     }
+
 }
 
 void print_pixel( char *source_path, int x, int y ){
-    int width, height, channel_count, n;
+    int width, height, channel_count;
     unsigned char *data;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     
-    if (resultat){
-     n=(width*channel_count*(y-1))+((x-1)*channel_count);
-     printf ("print_pixel (%d, %d): %d, %d, %d", x, y, data[n], data[n+1], data[n+2]);
+
+    // lire donées immage//
+    printf("teste 1");
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    printf("teste 2");
+
+    pixelRGB *current_pixel = get_pixel(data, width, height, channel_count, x, y);
+
+    // afficher le resultat si valide //
+    if (resultat !=0) {
+        
+        unsigned char R = current_pixel->R;
+        unsigned char G = current_pixel->G;
+        unsigned char B = current_pixel->B;
+        printf ("print_pixel (%d, %d): %d, %d, %d", x, y, R, G, B);
     }
     else {
-        printf("ERROR");
-    }
+        printf("erreur lecture immage");
+    }    
+    //liberer mémoire//
+    free(data);
 }
 
 /*DEBUT FONCTIONS STATISTIQUES*/
