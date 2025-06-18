@@ -128,6 +128,19 @@ if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
     rotate_cw( configuration.filenames[0] );
 }
 
+if ( strncmp( configuration.command, "rotate_acw", 10 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    rotate_acw( configuration.filenames[0] );
+}
+
+if ( strncmp( configuration.command, "scale_crop", 10 ) == 0 ) {
+    /* first_pixel() function is defined in feature.h and implemented in feature.c */
+    int x = atoi( configuration.arguments[0] );
+    int y = atoi( configuration.arguments[1]);
+    int width_crop = atoi( configuration.arguments[2] );
+    int height_crop = atoi( configuration.arguments[3]);
+    scale_crop( configuration.filenames[0], x, y, width_crop, height_crop);
+}
 
   return 0;
   

@@ -573,41 +573,86 @@ void mirror_total (char *source_path){
     
 void rotate_cw (char *source_path){
 
-    int width, height, channel_count, i, j;
+    int width, height, channel_count, x, y;
     unsigned char *data;
     unsigned char *rotate_cw;
-    unsigned char *data_r;
-    unsigned char *data_g;
-    unsigned char *data_b;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     read_image_data(source_path, &rotate_cw, &width, &height, &channel_count);
-    read_image_data(source_path, &data_r, &width, &height, &channel_count);
-    read_image_data(source_path, &data_g, &width, &height, &channel_count);
-    read_image_data(source_path, &data_b, &width, &height, &channel_count);
 
-    for (i=0; i<height; i++){
-        int current_rgb = 3*width*i;
-        for (j=1; j<width; j++){
-            grille_R[j-1][width-i] = data[3*(j-1)+current_rgb];
-            grille_G[j-1][width-i] = data[3*(j-1)+1+current_rgb];
-            grille_B[j-1][width-i] = data[3*(j-1)+2+current_rgb];
+    for (y=0; y < height; y++){
+        for (x=0 ; x < width; x++){
+            int x_cible = height - y - 1;
+            int y_cible = x ;
+            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x , y);
+            pixelRGB* transform_pixel = get_pixel(rotate_cw, width, height, channel_count, x_cible , y_cible);
+            transform_pixel->R = original_pixel->R;
+            transform_pixel->G = original_pixel->G;
+            transform_pixel->B = original_pixel->B;
         }
     }
-    
-    for (i=0; i<width; i++){
-        int current_rgb_2 = 3*height*i;
-        for (j=1; j<height; j++){
-            rotate_cw [3*(j-1)+current_rgb_2] = grille_R [i][j-1];
-            rotate_cw [3*(j-1)+1+current_rgb_2] = grille_G [i][j-1];
-            rotate_cw [3*(j-1)+2+current_rgb_2] = grille_B [i][j-1];
-        }
-    }
-    
-
     if (resultat){
-        write_image_data("images/image_out.bmp", rotate_cw, height, width);
+        write_image_data("image_out.bmp", rotate_cw, height, width);
     }
     else {
         printf("NULL");
     }
+}
+
+void rotate_acw (char *source_path){
+
+    int width, height, channel_count, x, y;
+    unsigned char *data;
+    unsigned char *rotate_acw;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &rotate_acw, &width, &height, &channel_count);
+    
+    for (y=0; y < height; y++){
+        for (x=0 ; x < width; x++){
+            int x_cible = y;
+            int y_cible = width-x-1;
+            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x , y);
+            pixelRGB* transform_pixel = get_pixel(rotate_acw, width, height, channel_count, x_cible , y_cible);
+            transform_pixel->R = original_pixel->R;
+            transform_pixel->G = original_pixel->G;
+            transform_pixel->B = original_pixel->B;
+        }
+    }
+    if (resultat){
+        write_image_data("image_out.bmp", rotate_acw, height, width);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
+void scale_crop (char *source_path, int x, int y, int width_crop, int height_crop){
+    int width, height, channel_count, x_origine, y_origine, x_crop, y_crop;
+    unsigned char *data;
+    unsigned char *crop_image;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &crop_image, &width, &height, &channel_count);
+
+    x_crop=0;
+    y_crop=0;
+
+    for (y_origine = y-height_crop/2 ; y_origine > height_crop+y_origine; y_origine++){
+        for (x_origine = x-width_crop/2 ; x_origine > width_crop+x_origine; x_origine++){
+            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x_origine , y_origine);
+            pixelRGB* crop_pixel = get_pixel(crop_image, width, height, channel_count, x_crop , y_crop);
+            crop_pixel->R = original_pixel->R;
+            crop_pixel->G = original_pixel->G;
+            crop_pixel->B = original_pixel->B;
+            x_crop+=1;
+        }
+        y_crop+=1;
+        x_crop=0;
+    }
+
+    if (resultat){
+        write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
+    }
+    else {
+        printf("NULL");
+    }
+
 }
