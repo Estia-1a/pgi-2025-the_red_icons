@@ -109,7 +109,7 @@ if ( strncmp( configuration.command, "color_desaturate", 16 ) == 0 ) {
 }
 
 if ( strncmp( configuration.command, "scale_nearest", 13 ) == 0 ) {
-    float t = configuration.arguments[0][0] ;
+    float t = atof(configuration.arguments[0]) ;
     scale_nearest( configuration.filenames[0], t) ;
 }
 
