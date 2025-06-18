@@ -1,6 +1,8 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -490,9 +492,48 @@ void color_desaturate (char *source_path){
 
 /*Début fonctions resize*/
 
-void scale_neatest(char *source_path, char X){
-    int width, height, channel_count, x, y, X;
+void scale_nearest(char *source_path, float t) {
+    int width, height, channel_count, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    /*création du tableau résultat à écrire*/
+    unsigned char *data_result;
+    double height_result = ceilf(height * t) ;
+    double width_result = ceilf(width * t) ;
+    double dimension_result = height_result * width_result * channel_count ;
+    data_result = (unsigned char *)malloc(dimension_result) ;
+    printf ("malloc: %f", dimension_result);
     
+    if (resultat) {
+        for (y = 0; y < height_result; y++) {
+            for (x = 0; x < width_result; x++) {
+                unsigned long pixel_offset = y * width_result * channel_count + x * channel_count ;
+                float x_origin = (float)x / t ;
+                float y_origin = (float)y / t ;
+                int x_nearest = (int)roundf(x_origin) ;
+                int y_nearest = (int)roundf(y_origin) ;
+                if (x_nearest < 0) x_nearest = 0 ;
+                if (y_nearest < 0) y_nearest = 0 ;
+                if (x_nearest >= width) x_nearest = width - 1 ;
+                if (y_nearest >= height) y_nearest = height - 1 ;
+                unsigned pixel_origin = y_nearest * width * channel_count + x_nearest * channel_count ;
+                data_result[pixel_offset] = data[pixel_origin] ;
+                data_result[pixel_offset + 1 ] = data[pixel_origin + 1 ] ;
+                data_result[pixel_offset + 2 ] = data[pixel_origin + 2 ] ;
+            }
+        }
+    int write_success = write_image_data("images/image_out.bmp", data_result, width_result, height_result);
+    if (write_success){
+        printf("sauvegarde des données du tableau réussie");
+    }
+    else {
+        printf("erreur de sauvegarde des données");
+    }
+    free_image_data(data) ;
+    free(data_result);
+    }
+    else {
+        printf("erreur de lecture");
+    }
 }

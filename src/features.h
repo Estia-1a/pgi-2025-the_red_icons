@@ -23,6 +23,6 @@ void color_invert (char *source_path);
 void color_gray_luminance (char *source_path);
 void color_desaturate (char *source_path);
 /*Resize*/
-void scale_nearest (char *source_path, char X);
+void scale_nearest (char *source_path, float t);
 
 #endif
