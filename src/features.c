@@ -74,18 +74,23 @@ void print_pixel( char *source_path, int x, int y ){
     int width, height, channel_count;
     unsigned char *data=0;
     
-    //utilisation fonction getpixel //
-    pixelRGB *resultatgetpixel = get_pixel(data,width,height,channel_count,x,y);
-// lire donées immage//
-int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
 
-//echec lecture immage //
-if (resultat=0){
-    printf("erreur lecture immage \n");
-    return;
-}
+// lire donées immage//
+printf("teste 1");
+int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+printf("teste 2");
+
 // afficher le resultat si valide //
-    
+if (resultat !=0){
+    pixelRGB* current_pixel = get_pixel(data, width, height, channel_count, x, y);
+    unsigned char R = current_pixel->R;
+    unsigned char G = current_pixel->G;
+    unsigned char B = current_pixel->B;
+    printf ("print_pixel (%d, %d): %d, %d, %d", x, y, R, G, B);
+}
+else {
+    printf("erreur lecture immage");
+}    
 //liberer mémoire//
 free(data);
 }
@@ -306,7 +311,7 @@ void stat_report (char *source_path){
 void color_red (char *source_path){
 // variable pour stocké les information de l'image//
    unsigned char *image_data;
-   int width, height,x, y,num_channels, result_code ;  
+   int width, height,x, y,num_channels;  
    
    // lire l'image // 
    read_image_data(source_path, &image_data, &width,&height,&num_channels);
