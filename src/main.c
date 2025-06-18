@@ -42,17 +42,14 @@ if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
 }
 
 if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     tenth_pixel( configuration.filenames[0] );
 }
 
 if ( strncmp( configuration.command, "second_line", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     second_line( configuration.filenames[0] );
 }
 
 if ( strncmp( configuration.command, "print_pixel", 11 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     int x = atoi( configuration.arguments[1] );
     int y = atoi( configuration.arguments[2]);
     print_pixel( configuration.filenames[0], x, y);
@@ -113,21 +110,22 @@ if ( strncmp( configuration.command, "scale_nearest", 13 ) == 0 ) {
     scale_nearest( configuration.filenames[0], t) ;
 }
 
+if ( strncmp( configuration.command, "scale_bilinear", 13 ) == 0 ) {
+    float t = atof(configuration.arguments[0]) ;
+    scale_bilinear( configuration.filenames[0], t) ;
+}
+
 if ( strncmp( configuration.command, "mirror_vertical", 15 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
-    mirror_vertical( configuration.filenames[0] );
+     mirror_vertical( configuration.filenames[0] );
 }
 
 if ( strncmp( configuration.command, "mirror_horizontal", 17 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     mirror_horizontal( configuration.filenames[0] );
 }
 
 if ( strncmp( configuration.command, "mirror_total", 12 ) == 0 ) {
-    /* first_pixel() function is defined in feature.h and implemented in feature.c */
     mirror_total( configuration.filenames[0] );
 }
 
-  return 0;
-  
+    return 0;
 }

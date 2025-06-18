@@ -320,12 +320,12 @@ void color_red (char *source_path){
                 data[pixel_offset +2] = 0;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -346,12 +346,12 @@ void color_green (char *source_path){
                 data[pixel_offset +2] = 0;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -372,12 +372,12 @@ void color_blue (char *source_path){
                 data[pixel_offset +1] = 0;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -400,12 +400,12 @@ void color_gray (char *source_path){
                 data[pixel_offset + 2 ] = pixel_moyenne ;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -427,12 +427,12 @@ void color_invert (char *source_path){
                 data[pixel_offset + 2 ] = 255 - data[pixel_offset + 2 ] ;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -455,12 +455,12 @@ void color_gray_luminance (char *source_path){
                 data[pixel_offset + 2 ] = pixel_moyenne ;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -486,12 +486,12 @@ void color_desaturate (char *source_path){
                 data[pixel_offset + 2 ] = pixel_moyenne ;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data, width, height);
+    int write_success = write_image_data("image_out.bmp", data, width, height);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data);
     }
@@ -520,7 +520,7 @@ void mirror_vertical (char *source_path){
     }
 
     if (resultat){
-        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
+        write_image_data("image_out.bmp", mirror_vertical, width, height);
     }
     else {
         printf("NULL");
@@ -543,7 +543,7 @@ void mirror_horizontal (char *source_path){
     }
 
     if (resultat){
-        write_image_data("images/image_out.bmp", mirror_horizontal, width, height);
+        write_image_data("image_out.bmp", mirror_horizontal, width, height);
     }
     else {
         printf("NULL");
@@ -577,10 +577,13 @@ void mirror_total (char *source_path){
     }
 
     if (resultat){
-        write_image_data("images/image_out.bmp", mirror_total, width, height);
+        write_image_data("image_out.bmp", mirror_total, width, height);
     }
     else {
         printf("NULL");
+    }
+}
+
 /*Début fonctions resize*/
 
 void scale_nearest(char *source_path, float t) {
@@ -614,7 +617,79 @@ void scale_nearest(char *source_path, float t) {
                 data_result[pixel_offset + 2 ] = data[pixel_origin + 2 ] ;
             }
         }
-    int write_success = write_image_data("images/image_out.bmp", data_result, width_result, height_result);
+    int write_success = write_image_data("image_out.bmp", data_result, width_result, height_result);
+    if (write_success){
+        printf("print ok");
+    }
+    else {
+        printf("print fail");
+    }
+    free_image_data(data) ;
+    free(data_result);
+    }
+    else {
+        printf("erreur de lecture");
+    }
+}
+
+void scale_bilinear(char *source_path, float t) {
+    int width, height, channel_count, x, y;
+    unsigned char *data;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    /*création du tableau résultat à écrire*/
+    unsigned char *data_result;
+    double height_result = ceilf(height * t) ;
+    double width_result = ceilf(width * t) ;
+    double dimension_result = height_result * width_result * channel_count ;
+    data_result = (unsigned char *)malloc(dimension_result) ;
+    printf ("malloc: %f", dimension_result);
+    
+    if (resultat) {
+        for (y = 0; y < height_result; y++) {
+            for (x = 0; x < width_result; x++) {
+                unsigned long pixel_offset = y * width_result * channel_count + x * channel_count ;
+                float x_origin = (float)x / t ;
+                float y_origin = (float)y / t ;
+                /*calcul des positions des pixels originaux les plus proches*/
+                int x_hg = (int)floorf(x_origin);
+                int y_hg = (int)floorf(y_origin);
+                if (x_hg < 0 ) x_hg = 0 ;
+                if (y_hg < 0 ) y_hg = 0 ;
+                if (x_hg >= width) x_hg = width - 1 ;
+                if (y_hg >= height) y_hg = height - 1 ;
+                pixelRGB* pixel_hg = get_pixel(data, width, height, channel_count, x_hg, y_hg);
+                int x_hd = x_hg + 1 ;
+                int y_hd = y_hg ;
+                if (x_hd < 0 ) x_hd = 0 ;
+                if (y_hd < 0 ) y_hd = 0 ;
+                if (x_hd >= width) x_hd = width - 1 ;
+                if (y_hd >= height) y_hd = height - 1 ;
+                pixelRGB* pixel_hd = get_pixel(data, width, height, channel_count, x_hd, y_hd);
+                int x_bg = x_hg ;
+                int y_bg = y_hg + 1 ;
+                if (x_bg < 0 ) x_bg = 0 ;
+                if (y_bg < 0 ) y_bg = 0 ;
+                if (x_bg >= width) x_bg = width - 1 ;
+                if (y_bg >= height) y_bg = height - 1 ;
+                pixelRGB* pixel_bg = get_pixel(data, width, height, channel_count, x_bg, y_bg);
+                int x_bd = x_hg + 1 ;
+                int y_bd = y_hg + 1 ;
+                if (x_bd < 0 ) x_bd = 0 ;
+                if (y_bd < 0 ) y_bd = 0 ;
+                if (x_bd >= width) x_bd = width - 1 ;
+                if (y_bd >= height) y_bd = height - 1 ;
+                pixelRGB* pixel_bd = get_pixel(data, width, height, channel_count, x_bd, y_bd);
+
+                /*calcul des valeurs de R*/
+                float dx = x_origin - x_hg ;
+                float dy = y_origin - y_hg ;
+                data_result[pixel_offset] = (1 - dx) * (1 - dy) * pixel_hg->R + (1- dx) * (dy) * pixel_bg->R + (dx) * (1 - dy) * pixel_hd->R + (dx) * (dy) * pixel_bd->R;
+                data_result[pixel_offset + 1] = (1 - dx) * (1 - dy) * pixel_hg->G + (1- dx) * (dy) * pixel_bg->G + (dx) * (1 - dy) * pixel_hd->G + (dx) * (dy) * pixel_bd->G;
+                data_result[pixel_offset + 2] = (1 - dx) * (1 - dy) * pixel_hg->B + (1- dx) * (dy) * pixel_bg->B + (dx) * (1 - dy) * pixel_hd->B + (dx) * (dy) * pixel_bd->B;                
+            }
+        }
+    int write_success = write_image_data("image_out.bmp", data_result, width_result, height_result);
     if (write_success){
         printf("sauvegarde des données du tableau réussie");
     }
