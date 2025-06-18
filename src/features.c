@@ -597,7 +597,6 @@ void scale_nearest(char *source_path, float t) {
     double width_result = ceilf(width * t) ;
     double dimension_result = height_result * width_result * channel_count ;
     data_result = (unsigned char *)malloc(dimension_result) ;
-    printf ("malloc: %f", dimension_result);
     
     if (resultat) {
         for (y = 0; y < height_result; y++) {
@@ -643,7 +642,6 @@ void scale_bilinear(char *source_path, float t) {
     double width_result = ceilf(width * t) ;
     double dimension_result = height_result * width_result * channel_count ;
     data_result = (unsigned char *)malloc(dimension_result) ;
-    printf ("malloc: %f", dimension_result);
     
     if (resultat) {
         for (y = 0; y < height_result; y++) {
@@ -691,10 +689,10 @@ void scale_bilinear(char *source_path, float t) {
         }
     int write_success = write_image_data("image_out.bmp", data_result, width_result, height_result);
     if (write_success){
-        printf("sauvegarde des données du tableau réussie");
+        printf("write ok");
     }
     else {
-        printf("erreur de sauvegarde des données");
+        printf("write fail");
     }
     free_image_data(data) ;
     free(data_result);
