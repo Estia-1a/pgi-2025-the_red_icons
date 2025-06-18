@@ -27,3 +27,25 @@ data[décalage+2] = pixel->B;
 
 return 0;
 }
+
+unsigned char min(unsigned char R, unsigned char G, unsigned char B) {
+    unsigned char result = R ;
+    if (G < result) {
+        result = G ;
+    }
+    if (B < result) {
+        result = B ;
+    }
+    return result;
+}
+
+unsigned char max(unsigned char R, unsigned char G, unsigned char B) {
+    unsigned char result = R ;
+    if (G > result) {
+        result = G ;
+    }
+    if (B > result) {
+        result = B ;
+    }
+    return result;
+}

@@ -105,7 +105,12 @@ if ( strncmp( configuration.command, "color_gray_luminance", 20 ) == 0 ) {
 }
 
 if ( strncmp( configuration.command, "color_desaturate", 16 ) == 0 ) {
-    color_gray_luminance( configuration.filenames[0]);
+    color_desaturate( configuration.filenames[0]);
+}
+
+if ( strncmp( configuration.command, "scale_nearest", 13 ) == 0 ) {
+    float t = atof(configuration.arguments[0]) ;
+    scale_nearest( configuration.filenames[0], t) ;
 }
 
 if ( strncmp( configuration.command, "mirror_vertical", 15 ) == 0 ) {
