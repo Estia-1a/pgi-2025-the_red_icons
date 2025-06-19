@@ -711,15 +711,7 @@ void scale_crop(char *sourcePath, int x, int y, int width_crop, int height_crop)
             }
         }
     }
-
-<<<<<<< HEAD
-    if (resultat){
-        write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
-    }
-    else {
-        printf("NULL");
-    }
-
+    write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
 }
 
 void scale_nearest(char *source_path, float t) {
@@ -837,7 +829,3 @@ void scale_bilinear(char *source_path, float t) {
         printf("erreur de lecture");
     }
 }
-=======
-    write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
-}
->>>>>>> origin/Transform
