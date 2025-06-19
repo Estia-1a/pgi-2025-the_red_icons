@@ -1,6 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -489,48 +490,48 @@ void color_desaturate (char *source_path){
 
 /*Fonctions transform*/
 
-void mirror_vertical (char *source_path){
-
-    int width, height, channel_count, i, j, k, current_rgb ;
-    unsigned char *data;
-    unsigned char *mirror_vertical;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
-    
-    for (i=0; i<height; i++){
-        for (j=1; j<width+1; j++){
-            for (k=0; k<3; k++){
-                current_rgb = 3*width*i+k;
-                mirror_vertical[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
-            }
-        }
-    }
-
-    if (resultat){
-        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
-    }
-    else {
-        printf("NULL");
-    }
-}
-
 void mirror_horizontal (char *source_path){
 
-    int width, height, channel_count, i, j, current_rgb;
+    int width, height, channel_count, i, j, k, current_rgb ;
     unsigned char *data;
     unsigned char *mirror_horizontal;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     read_image_data(source_path, &mirror_horizontal, &width, &height, &channel_count);
     
     for (i=0; i<height; i++){
-        for (j=0; j<width*3; j++){
-                current_rgb = 3*width*i;
-                mirror_horizontal[j+(height-1)*width*3-current_rgb]= data[j+current_rgb];
+        for (j=1; j<width+1; j++){
+            for (k=0; k<3; k++){
+                current_rgb = 3*width*i+k;
+                mirror_horizontal[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
+            }
         }
     }
 
     if (resultat){
         write_image_data("images/image_out.bmp", mirror_horizontal, width, height);
+    }
+    else {
+        printf("NULL");
+    }
+}
+
+void mirror_vertical (char *source_path){
+
+    int width, height, channel_count, i, j, current_rgb;
+    unsigned char *data;
+    unsigned char *mirror_vertical;
+    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
+    
+    for (i=0; i<height; i++){
+        for (j=0; j<width*3; j++){
+                current_rgb = 3*width*i;
+                mirror_vertical[j+(height-1)*width*3-current_rgb]= data[j+current_rgb];
+        }
+    }
+
+    if (resultat){
+        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
     }
     else {
         printf("NULL");
@@ -625,36 +626,54 @@ void rotate_acw (char *source_path){
     }
 }
 
-void scale_crop (char *source_path, int x, int y, int width_crop, int height_crop){
-    int width, height, channel_count, x_origine, y_origine, x_crop, y_crop;
+void scale_crop(char *sourcePath, int x, int y, int width_crop, int height_crop) {
+    int width, height, channel_count;
     unsigned char *data;
     unsigned char *crop_image;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    read_image_data(source_path, &crop_image, &width, &height, &channel_count);
 
-    x_crop=0;
-    y_crop=0;
+    read_image_data(sourcePath, &data, &width, &height, &channel_count);
 
-    for (y_origine = y-height_crop/2 ; y_origine > height_crop+y_origine; y_origine++){
-        for (x_origine = x-width_crop/2 ; x_origine > width_crop+x_origine; x_origine++){
-            pixelRGB* original_pixel = get_pixel(data, width, height, channel_count, x_origine , y_origine);
-            pixelRGB* crop_pixel = get_pixel(crop_image, width, height, channel_count, x_crop , y_crop);
-            crop_pixel->R = original_pixel->R;
-            crop_pixel->G = original_pixel->G;
-            crop_pixel->B = original_pixel->B;
-            x_crop+=1;
+    int crop_x = x - width_crop / 2;
+    int crop_y = y - height_crop / 2;
+
+    if (crop_x < 0) {
+        width_crop += crop_y;
+        crop_x = 0;
+    }
+    if (crop_x + width_crop > width) {
+        width_crop = width - crop_x;
+    }
+
+    if (crop_y < 0) {
+        height_crop += crop_y;
+        crop_y = 0;
+    }
+    if (crop_y + height_crop > height) {
+        height_crop = height - crop_y;
+    }
+
+    crop_image = (unsigned char *)malloc(width_crop * height_crop * channel_count * sizeof(unsigned char));
+
+    for (int destY = 0; destY < height_crop; destY++) {
+        for (int destX = 0; destX < width_crop; destX++) {
+            int sourceX = crop_x + destX;
+            int sourceY = crop_y + destY;
+
+            pixelRGB* sourcePixel = get_pixel(data, width, height, channel_count, sourceX, sourceY);
+            
+            int destPixelOffset = (destY * width_crop + destX) * channel_count;
+
+            if (sourcePixel != NULL) {
+                crop_image[destPixelOffset] = sourcePixel->R;
+                crop_image[destPixelOffset + 1] = sourcePixel->G;
+                crop_image[destPixelOffset + 2] = sourcePixel->B;
+            } else {
+                crop_image[destPixelOffset] = 0;
+                crop_image[destPixelOffset + 1] = 0;
+                crop_image[destPixelOffset + 2] = 0;
+            }
         }
-        y_crop+=1;
-        x_crop=0;
     }
 
-    if (resultat){
-        write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
-    }
-    else {
-        printf("NULL");
-    }
-
+    write_image_data("image_out.bmp", crop_image, width_crop, height_crop);
 }
-
-test push
