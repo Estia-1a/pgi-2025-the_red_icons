@@ -501,21 +501,18 @@ void color_desaturate (char *source_path){
 }
 
 /*Fonctions transform*/
-
 void mirror_vertical (char *source_path){
 
-    int width, height, channel_count, i, j, k, current_rgb ;
+    int width, height, channel_count, i, j, current_rgb;
     unsigned char *data;
     unsigned char *mirror_vertical;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
     read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
     
     for (i=0; i<height; i++){
-        for (j=1; j<width+1; j++){
-            for (k=0; k<3; k++){
-                current_rgb = 3*width*i+k;
-                mirror_vertical[3*(width-j)+current_rgb] = data[3*(j-1)+current_rgb];
-            }
+        for (j=0; j<width*3; j++){
+                current_rgb = 3*width*i;
+                mirror_vertical[j+(height-1)*width*3-current_rgb]= data[j+current_rgb];
         }
     }
 
@@ -526,7 +523,6 @@ void mirror_vertical (char *source_path){
         printf("NULL");
     }
 }
-
 void mirror_horizontal (char *source_path){
 
     int width, height, channel_count, i, j, k, current_rgb ;
@@ -544,29 +540,7 @@ void mirror_horizontal (char *source_path){
         }
     }
     if (resultat){
-        write_image_data("images/image_out.bmp", mirror_horizontal, width, height);
-    }
-    else {
-        printf("NULL");
-    }
-}
-void mirror_vertical (char *source_path){
-
-    int width, height, channel_count, i, j, current_rgb;
-    unsigned char *data;
-    unsigned char *mirror_vertical;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    read_image_data(source_path, &mirror_vertical, &width, &height, &channel_count);
-    
-    for (i=0; i<height; i++){
-        for (j=0; j<width*3; j++){
-                current_rgb = 3*width*i;
-                mirror_vertical[j+(height-1)*width*3-current_rgb]= data[j+current_rgb];
-        }
-    }
-
-    if (resultat){
-        write_image_data("images/image_out.bmp", mirror_vertical, width, height);
+        write_image_data("image_out.bmp", mirror_horizontal, width, height);
     }
     else {
         printf("NULL");
@@ -635,7 +609,6 @@ void rotate_cw (char *source_path){
     }
 }
 
-/*Début fonctions resize*/
 void rotate_acw (char *source_path){
 
     int width, height, channel_count, x, y;
@@ -663,6 +636,7 @@ void rotate_acw (char *source_path){
     }
 }
 
+/*Début fonctions resize*/
 void scale_crop(char *sourcePath, int x, int y, int width_crop, int height_crop) {
     int width, height, channel_count;
     unsigned char *data;
