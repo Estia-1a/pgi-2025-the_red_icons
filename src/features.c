@@ -96,7 +96,6 @@ void print_pixel( char *source_path, int x, int y ){
 }
 
 /*DEBUT FONCTIONS STATISTIQUES*/
-
 void max_pixel (char *source_path){
     int width, height, channel_count, max, xmax, ymax, rmax, gmax, bmax, x, y;
     unsigned char *data;
@@ -312,26 +311,16 @@ void color_red (char *source_path){
     int width, height, channel_count, x, y;
     unsigned char *data;
     int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
-    if (resultat){
-        for (y = 0; y < height; y++){
-            for (x = 0; x < width; x++){
-                unsigned long pixel_offset = y * width * channel_count + x * channel_count;
-                data[pixel_offset +1] = 0;
-                data[pixel_offset +2] = 0;
-            }
+    for (y = 0; y < height; y++){
+        for (x = 0; x < width; x++){
+            unsigned long pixel_offset = y * width * channel_count + x * channel_count;
+            data[pixel_offset +1] = 0;
+            data[pixel_offset +2] = 0;
         }
+    }
     int write_success = write_image_data("image_out.bmp", data, width, height);
-    if (write_success){
-        printf("write ok");
-    }
-    else {
-        printf("write fail");
-    }
     free_image_data(data);
-    }
-    else {
-        printf("erreur de lecture");
-    }
+    printf("erreur de lecture");
 }
 
 void color_green (char *source_path){
@@ -523,6 +512,7 @@ void mirror_vertical (char *source_path){
         printf("NULL");
     }
 }
+
 void mirror_horizontal (char *source_path){
 
     int width, height, channel_count, i, j, k, current_rgb ;
@@ -580,7 +570,6 @@ void mirror_total (char *source_path){
         printf("NULL");
     }
 }
-
     
 void rotate_cw (char *source_path){
 
