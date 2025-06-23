@@ -310,7 +310,7 @@ void stat_report (char *source_path){
 void color_red (char *source_path){
     int width, height, channel_count, x, y;
     unsigned char *data;
-    int resultat = read_image_data(source_path, &data, &width, &height, &channel_count);
+    read_image_data(source_path, &data, &width, &height, &channel_count);
     for (y = 0; y < height; y++){
         for (x = 0; x < width; x++){
             unsigned long pixel_offset = y * width * channel_count + x * channel_count;
@@ -318,9 +318,8 @@ void color_red (char *source_path){
             data[pixel_offset +2] = 0;
         }
     }
-    int write_success = write_image_data("image_out.bmp", data, width, height);
+    write_image_data("image_out.bmp", data, width, height);
     free_image_data(data);
-    printf("erreur de lecture");
 }
 
 void color_green (char *source_path){
